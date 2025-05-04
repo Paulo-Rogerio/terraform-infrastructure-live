@@ -1,0 +1,108 @@
+# Temporary provider configuration for 'us_east_1' and 'us_east_2' aliases.
+
+%{~ for region in ["us-east-1", "us-east-2"] ~}
+
+provider "aws" {
+  alias  = "${replace(region, "-", "_")}"
+  region = "${region}"
+
+  allowed_account_ids = ["${account_id}"]
+
+  default_tags {
+    tags = {
+      %{~ for k, v in default_tags ~}
+      ${k} = "${v}"
+      %{~ endfor ~}
+    }
+  }
+
+  ignore_tags {
+    keys = [
+      %{~ for key in ignore_tags.keys ~}
+      "${key}",
+      %{~ endfor ~}
+    ]
+    key_prefixes = [
+      %{~ for key_prefix in ignore_tags.key_prefixes ~}
+      "${key_prefix}",
+      %{~ endfor ~}
+    ]
+  }
+
+  %{~ if aws_profile != null ~}
+  profile = "${aws_profile}"
+  %{~ endif ~}
+}
+
+%{~ endfor ~}
+
+# Single-region provider configuration
+
+provider "aws" {
+  region = "${current_region}"
+
+  allowed_account_ids = ["${account_id}"]
+
+  default_tags {
+    tags = {
+      %{~ for k, v in default_tags ~}
+      ${k} = "${v}"
+      %{~ endfor ~}
+    }
+  }
+
+  ignore_tags {
+    keys = [
+      %{~ for key in ignore_tags.keys ~}
+      "${key}",
+      %{~ endfor ~}
+    ]
+    key_prefixes = [
+      %{~ for key_prefix in ignore_tags.key_prefixes ~}
+      "${key_prefix}",
+      %{~ endfor ~}
+    ]
+  }
+
+  %{~ if aws_profile != null ~}
+  profile = "${aws_profile}"
+  %{~ endif ~}
+}
+
+# Multi-region provider configuration
+
+%{~ for config in provider_configs ~}
+
+provider "aws" {
+  alias  = "${config.alias}"
+  region = "${config.region}"
+
+  allowed_account_ids = ["${account_id}"]
+
+  default_tags {
+    tags = {
+      %{~ for k, v in default_tags ~}
+      ${k} = "${v}"
+      %{~ endfor ~}
+    }
+  }
+
+  ignore_tags {
+    keys = [
+      %{~ for key in ignore_tags.keys ~}
+      "${key}",
+      %{~ endfor ~}
+    ]
+    key_prefixes = [
+      %{~ for key_prefix in ignore_tags.key_prefixes ~}
+      "${key_prefix}",
+      %{~ endfor ~}
+    ]
+  }
+
+  %{~ if aws_profile != null ~}
+  profile = "${aws_profile}"
+  %{~ endif ~}
+}
+
+%{~ endfor ~}
