@@ -28,54 +28,31 @@ locals {
   account_name  = local.account_vars.account_name
   account_id    = local.account_vars.account_id
   environment   = local.account_vars.environment
-  aws_region    = local.region_vars.aws_region
+  region        = local.region_vars.region
 
   # Use the first service from the repository metadata as the repository name
-  component_repo = "terraform-aws-infrastructure-live"
+  component_repo = "terraform-infrastructure-live"
 
   # Truncate the relative path of the component being deployed to 256 characters to
   # comply with the AWS tag value length limit
   # Ref: https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html#tag-conventions
   component_path = substr(path_relative_to_include(), 0, 256)
 
-  # Multi-region setup
-  aws_supported_regions = [
-    "us-east-1",
-    "us-east-2",
-  ]
-
-  aws_multi_region_vars = {
-    aws_primary_region   = local.aws_region
-    aws_secondary_region = tolist(setsubtract(local.aws_supported_regions, [local.aws_region]))[0]
-  }
-
-  aws_provider_configs = [
-    {
-      alias  = "primary_region"
-      region = local.aws_multi_region_vars.aws_primary_region
-    },
-    {
-      alias  = "secondary_region"
-      region = local.aws_multi_region_vars.aws_secondary_region
-    },
-  ]
-
-  aws_profile = local.account_alias
 }
 
 
 generate "aws_provider" {
-  path      = "_tg-aws-provider.tf"
+  path      = "provider.tf"
   if_exists = "overwrite_terragrunt"
   contents = templatefile(
-    "${local.repo_root}/_templates/aws-provider.tpl",
+    "${local.repo_root}/_templates/provider.tf.tftpl",
     {
-      current_region   = local.aws_region
-      provider_configs = local.aws_provider_configs
+      current_region   = local.region
+      provider_configs = local.provider_configs
       account_id       = local.account_id
       component_repo   = local.component_repo
       component_path   = local.component_path
-      aws_profile      = local.aws_profile
+      profile          = local.profile
 
       default_tags = {
         tap-component-repo = local.component_repo

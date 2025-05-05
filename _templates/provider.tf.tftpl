@@ -69,40 +69,4 @@ provider "aws" {
   %{~ endif ~}
 }
 
-# Multi-region provider configuration
 
-%{~ for config in provider_configs ~}
-
-provider "aws" {
-  alias  = "${config.alias}"
-  region = "${config.region}"
-
-  allowed_account_ids = ["${account_id}"]
-
-  default_tags {
-    tags = {
-      %{~ for k, v in default_tags ~}
-      ${k} = "${v}"
-      %{~ endfor ~}
-    }
-  }
-
-  ignore_tags {
-    keys = [
-      %{~ for key in ignore_tags.keys ~}
-      "${key}",
-      %{~ endfor ~}
-    ]
-    key_prefixes = [
-      %{~ for key_prefix in ignore_tags.key_prefixes ~}
-      "${key_prefix}",
-      %{~ endfor ~}
-    ]
-  }
-
-  %{~ if aws_profile != null ~}
-  profile = "${aws_profile}"
-  %{~ endif ~}
-}
-
-%{~ endfor ~}
