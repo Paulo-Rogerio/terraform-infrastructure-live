@@ -11,7 +11,7 @@ terraform {
 locals {
   repo_root  = run_cmd("--terragrunt-quiet", "git", "rev-parse", "--show-toplevel")
 
-  blueprint_repository = "git::https://github.com/Paulo-Rogerio/terraform-aws-blueprints.git"
+  blueprint_repository = "git::https://github.com/Paulo-Rogerio/terraform-blueprints.git"
 
   # Automatically load account and region-level variables
   account_vars = read_terragrunt_config(find_in_parent_folders("account.hcl")).locals
@@ -41,18 +41,16 @@ locals {
 }
 
 
-generate "aws_provider" {
+generate "provider" {
   path      = "provider.tf"
   if_exists = "overwrite_terragrunt"
   contents = templatefile(
     "${local.repo_root}/_templates/provider.tf.tftpl",
     {
       current_region   = local.region
-      provider_configs = local.provider_configs
       account_id       = local.account_id
       component_repo   = local.component_repo
       component_path   = local.component_path
-      profile          = local.profile
 
       default_tags = {
         tap-component-repo = local.component_repo
@@ -73,7 +71,7 @@ remote_state {
   config = {
     bucket         = "estudos-aws-terragrunt"
     key            = "${path_relative_to_include()}/terraform.tfstate"
-    region         = "${local.aws_region}"
+    region         = "${local.region}"
   }
 
   generate = {

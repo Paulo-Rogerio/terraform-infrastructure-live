@@ -1,5 +1,5 @@
 locals {
-  account_id       = "76d13cf2-41a6-4487-ae24-c45080fab7bd"
+  account_id       = "b2c63f8d-a555-446e-a059-5aedeade6c6e"
   account_name     = "estudos-paulo"
   account_alias    = "estudos-paulo"
   environment      = "production"

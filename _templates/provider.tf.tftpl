@@ -1,72 +1,9 @@
-# Temporary provider configuration for 'us_east_1' and 'us_east_2' aliases.
-
-%{~ for region in ["us-east-1", "us-east-2"] ~}
-
-provider "aws" {
-  alias  = "${replace(region, "-", "_")}"
-  region = "${region}"
-
-  allowed_account_ids = ["${account_id}"]
-
-  default_tags {
-    tags = {
-      %{~ for k, v in default_tags ~}
-      ${k} = "${v}"
-      %{~ endfor ~}
-    }
-  }
-
-  ignore_tags {
-    keys = [
-      %{~ for key in ignore_tags.keys ~}
-      "${key}",
-      %{~ endfor ~}
-    ]
-    key_prefixes = [
-      %{~ for key_prefix in ignore_tags.key_prefixes ~}
-      "${key_prefix}",
-      %{~ endfor ~}
-    ]
-  }
-
-  %{~ if aws_profile != null ~}
-  profile = "${aws_profile}"
-  %{~ endif ~}
-}
-
-%{~ endfor ~}
 
 # Single-region provider configuration
 
-provider "aws" {
-  region = "${current_region}"
-
-  allowed_account_ids = ["${account_id}"]
-
-  default_tags {
-    tags = {
-      %{~ for k, v in default_tags ~}
-      ${k} = "${v}"
-      %{~ endfor ~}
-    }
-  }
-
-  ignore_tags {
-    keys = [
-      %{~ for key in ignore_tags.keys ~}
-      "${key}",
-      %{~ endfor ~}
-    ]
-    key_prefixes = [
-      %{~ for key_prefix in ignore_tags.key_prefixes ~}
-      "${key_prefix}",
-      %{~ endfor ~}
-    ]
-  }
-
-  %{~ if aws_profile != null ~}
-  profile = "${aws_profile}"
-  %{~ endif ~}
+provider "cloudstack" {
+  api_url    = "https://qa.cloudstack.cloud/simulator"
+  api_key    = "R9fgYPT0SnOd8yuG8ToCD_q1Tdj6jmoKxqCuyxnUf4v3AEXIx_GdGcERuJguTpnXCNuPQPPB-3gFuDni76Lqrg"
+  secret_key = "XfQuW6wwChuvX8QzMkCelahL8pIkVN78k103ZYPbNBJvZjxXPJnrDcv2qzl4ZTbG0O0gS7m5gvJMtdySTqNIKg"
 }
-
 
