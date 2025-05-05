@@ -41,41 +41,4 @@ locals {
 }
 
 
-generate "provider" {
-  path      = "provider.tf"
-  if_exists = "overwrite_terragrunt"
-  contents = templatefile(
-    "${local.repo_root}/_templates/provider.tf.tftpl",
-    {
-      current_region   = local.region
-      account_id       = local.account_id
-      component_repo   = local.component_repo
-      component_path   = local.component_path
 
-      default_tags = {
-        tap-component-repo = local.component_repo
-        tap-component-path = local.component_path
-      }
-
-      ignore_tags = {
-        keys         = ["owner-layer-slug"]
-        key_prefixes = ["waf-"]
-      }
-    }
-  )
-}
-
-remote_state {
-  backend = "s3"
-
-  config = {
-    bucket         = "estudos-aws-terragrunt"
-    key            = "${path_relative_to_include()}/terraform.tfstate"
-    region         = "${local.region}"
-  }
-
-  generate = {
-    path      = "backend.tf"
-    if_exists = "overwrite_terragrunt"
-  }
-}
