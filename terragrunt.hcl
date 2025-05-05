@@ -38,7 +38,21 @@ locals {
   # Ref: https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html#tag-conventions
   component_path = substr(path_relative_to_include(), 0, 256)
 
+  api_url    = "https://qa.cloudstack.cloud/simulator"
+  api_key    = "xxxx"
+  secret_key = "xxxx"
+
 }
 
-
-
+generate "provider" {
+  path      = "provider.tf"
+  if_exists = "overwrite_terragrunt"
+  contents  = templatefile(
+    "${get_repo_root()}/_templates/provider.tf.tftpl",
+    {
+      api_url    = local.api_url,
+      api_key    = local.api_key,
+      secret_key = local.secret_key
+    }
+  )
+}

@@ -5,7 +5,7 @@ include {
 locals {
   component_create  = true
   component_name    = "cloudstack/vpc/simple"
-  component_version = "0.0.5"
+  component_version = "0.0.6"
   service_vars = read_terragrunt_config(find_in_parent_folders("service.hcl")).locals
 }
 
