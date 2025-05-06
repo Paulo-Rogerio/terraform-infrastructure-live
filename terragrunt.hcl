@@ -32,15 +32,11 @@ locals {
 
   # Use the first service from the repository metadata as the repository name
   component_repo = "terraform-infrastructure-live"
-
-  # Truncate the relative path of the component being deployed to 256 characters to
-  # comply with the AWS tag value length limit
-  # Ref: https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html#tag-conventions
   component_path = substr(path_relative_to_include(), 0, 256)
 
-  api_url    = "https://qa.cloudstack.cloud/simulator"
-  api_key    = "xxxx"
-  secret_key = "xxxx"
+  api_url    = local.account_vars.api_url
+  api_key    = local.account_vars.api_key
+  secret_key = local.account_vars.secret_key
 
 }
 

@@ -3,4 +3,9 @@ locals {
   account_name     = "estudos-paulo"
   account_alias    = "estudos-paulo"
   environment      = "production"
+  api_url          = "https://qa.cloudstack.cloud/simulator"
+  api_key          = "-3gFuDni76Lqrg"
+  secret_key       = "gvMtdySTqNIKgx"
 }
+
+
