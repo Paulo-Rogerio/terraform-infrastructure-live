@@ -5,7 +5,7 @@ provider "registry.terraform.io/cloudstack/cloudstack" {
   version     = "0.5.0"
   constraints = "0.5.0"
   hashes = [
-    "h1:eh30xqFE1l+IAGQWwPDVIWLgIRS2Z6tWY/udyoEi32Y=",
+    "h1:C9S+b5zGGI6BZSwypx8bao7mbfs0tCd6P5hvaId6tc4=",
     "zh:052651013b6f4d7329eff9b320dc4b7c6ccc3b7279a0574e84a851407246a22e",
     "zh:073d27d9e1224605af7676331a816e94a6dcf7d64e18d0759e6a47d0ba7a601f",
     "zh:496b0afdc74e216686ad755ff009396476ee84751366e934c60af8d81f98f411",
