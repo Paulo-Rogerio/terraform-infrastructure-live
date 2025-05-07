@@ -1,17 +1,8 @@
 terraform {
-  source = !try(local.component_create, false) && local.use_null_component ? local.null_component : "${local.blueprint_repository}//${local.component_name}?ref=${local.component_version_type}"
-
-  after_hook "configure_providers" {
-    commands = local.should_configure_provider ? get_terraform_commands_that_need_locking() : []
-    execute  = ["${local.repo_root}/_bin/configure-providers.sh"]
-  }
-
+  source = "${local.blueprint_repository}//${local.component_name}?ref=${local.component_version_type}"
 }
 
-locals {
-
-  should_configure_provider = contains(["plan", "apply"], get_terraform_command())
-  
+locals {  
   common_dir = format("%s/_common", get_repo_root())
 
   repo_root  = run_cmd("--terragrunt-quiet", "git", "rev-parse", "--show-toplevel")
@@ -41,19 +32,13 @@ locals {
   environment   = local.account_vars.environment
   region        = local.region_vars.region
 
-  use_null_component = local.component_version_year == null ? false : (
-    local.component_version_year < 24 ||
-    (local.component_version_year == 24 && local.component_version_month <= 6)
-  )  
-
   # Use the first service from the repository metadata as the repository name
-  component_repo = "terraform-infrastructure-live"
-  component_path = substr(path_relative_to_include(), 0, 256)
+  #component_repo = "terraform-infrastructure-live"
+  #component_path = substr(path_relative_to_include(), 0, 256)
 
   api_url    = local.account_vars.api_url
   api_key    = local.account_vars.api_key
   secret_key = local.account_vars.secret_key
-
 }
 
 generate "cloudstack_provider" {
