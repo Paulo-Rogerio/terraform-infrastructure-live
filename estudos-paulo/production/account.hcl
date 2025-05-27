@@ -1,11 +1,11 @@
 locals {
-  account_id       = "593ca755-6e24-4bfc-bb22-0e59567bf7da"
+  account_id       = "8d6d73c7-b4bc-4806-aa79-f75a12387db8"
   account_name     = "estudos-paulo"
   account_alias    = "estudos-paulo"
   environment      = "production"
-  api_url          = "https://us-east1.opendata.center/client/api"
-  api_key          = "hat4ox1AkaIOuQYkVlTsVixIXuWTBganknT4LxL6tMV1j-eSWG8TyFUhGc1Jga5Rzo6jm65ldfkrT-QhgWM3cg"
-  secret_key       = "JRN1ASnXKmsY0fEf-ApMU5-neVAFcaMEHquI9aWP_1ZLVGhkdxTMFWhfJ6o5SXJHnwfyTavQSQB2WZ1AwsbXvg"
+  api_url          = "https://qa.cloudstack.cloud/client/api"
+  api_key          = "B1KHV_FU84zqUtwYyYUkmWdYcNFrY77fPxKpFUNNHuklI0V-yZfPGqGuoLzmzps89soMjn-1c-OGSRCFv1wLqA"
+  secret_key       = "ckwiSDHmMQcss4qfh3FSE-lDllJiam96-8Z1KhQPy_4_vkivaqySOjjQLwhFRb-t77A0iloXRwmcjBjP8fG8FA"
 }
 
 
